@@ -1,5 +1,4 @@
 const jsonServer = require('json-server');
-const cors = require('cors');
 
 const db = {
     garage: [
@@ -42,10 +41,6 @@ const PORT = 3000;
 const state = { velocity: {}, blocked: {} };
 
 server.use(middlewares);
-server.use(cors({
-  origin: '*', // Встановіть тут домен, з якого ви дозволяєте доступ, або '*' для доступу з будь-якого домену
-  allowedHeaders: ['Content-Type'] // Вкажіть тут дозволені заголовки, які використовуються в запитах
-}));
 
 server.patch('/engine', (req, res) => {
     const { id, status } = req.query;
@@ -96,11 +91,6 @@ server.patch('/engine', (req, res) => {
 
         setTimeout(() => res.header('Content-Type', 'application/json').status(200).send(JSON.stringify({ velocity, distance })), x);
     }
-});
-
-server.options('/engine', (req, res) => {
-  res.header('Access-Control-Allow-Methods', 'PATCH, OPTIONS'); // Додайте сюди дозволені методи
-  res.status(200).send();
 });
 
 server.use(router);
